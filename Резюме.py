@@ -1,7 +1,6 @@
 import requests
 import fake_useragent
 from bs4 import BeautifulSoup
-from sqlalchemy import Table, Column, Integer, String, MetaData
 
 
 baze = 'https://hh.ru/'
@@ -49,8 +48,7 @@ for i in vakans:
 
         res["zan'yatost"], res["grafick"] = (str(i.text.split(":")[1]) for i in soup.find_all('p', attrs={})[3:5])
 
-
-    res['opit'] = (soup.find('span', attrs={'class': 'resume-block__title-text resume-block__title-text_sub'}).text).replace('\xa0', ' ')
+    res['opit'] = soup.find('span', attrs={'class': 'resume-block__title-text resume-block__title-text_sub'}).text.replace('\xa0', ' ')
 
     try:
         res['about'] = str(soup.find('div', attrs={'data-qa': 'resume-block-skills-content'}).text).replace('\n', ' ').replace('\r', '')
@@ -63,7 +61,6 @@ for i in vakans:
             res['naviki'].append(i.text)
     except AttributeError:
         res['naviki'] = None
-
 
     for i in soup.find_all('div', attrs={'data-qa': "resume-block-education-name"}):
         res['education_name'].append(i.text)
