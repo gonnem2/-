@@ -1,9 +1,27 @@
 import requests
 import fake_useragent
 from bs4 import BeautifulSoup
+import sqlalchemy
+from sqlalchemy import Table, String, Integer, Column, Text, MetaData, insert, values
 
 url = "https://hh.ru/search/vacancy?text=&page=2&hhtmFrom=resume_search_result&hhtmFromLabel=vacancy_search_line"
 baze = 'https://hh.ru/'
+
+engine = sqlalchemy.create_engine("sqlite:///vakans.db")
+conn = engine.connect()
+
+metadata = MetaData()
+
+Vakancy = Table(
+    'Vakancy', metadata,
+    Column('id', Integer(), primary_key=True),
+    Column('title', String(200)),
+    Column('salary', String(200)),
+    Column('experience', String(200)),
+    Column('employment_mode', String(200)),
+    Column('href', String(200))
+)
+
 
 data = list()
 user_agent = fake_useragent.UserAgent()
@@ -22,8 +40,8 @@ for i in vakans_url:
     res = {
         'title': str,
         'salary': str,
-        'vacancy-experience': str,
-        'employment-mode': str,
+        'vacancy_experience': str,
+        'employment_mode': str,
         'href': str
 
 
@@ -39,12 +57,24 @@ for i in vakans_url:
         res['salary'] = soup.find('span', attrs={'data-qa': 'vacancy-salary-compensation-type-gross'}).text.replace('\xa0', '')
     except AttributeError:
         res['salary'] = None
-    res['vacancy-experience'] = soup.find('span', attrs={'data-qa': 'vacancy-experience'}).text
-    res['employment-mode'] = soup.find('p', attrs={'data-qa': 'vacancy-view-employment-mode'}).text
+    res['vacancy_experience'] = soup.find('span', attrs={'data-qa': 'vacancy-experience'}).text
+    res['employment_mode'] = soup.find('p', attrs={'data-qa': 'vacancy-view-employment-mode'}).text
+
+    metadata.create_all(engine)
+
+    ins = Vakancy.insert().values(
+        title = res['title'],
+        salary = res['salary'],
+        experience = res['vacancy_experience'],
+        employment_mode = res['employment_mode'],
+        href = res['href']
+
+    )
+    print(ins.compile().params)
+    conn.execute(ins)
+conn.commit()
 
 
-    obyaz = list()
-    # print(soup.find('div', attrs={'class': 'vacancy-section'}).text)
 
 
 
@@ -55,5 +85,5 @@ for i in vakans_url:
 
 
 
-    print(res)
-    break
+
+
