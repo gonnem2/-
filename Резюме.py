@@ -1,10 +1,34 @@
 import requests
 import fake_useragent
 from bs4 import BeautifulSoup
+import sqlalchemy
+from sqlalchemy import Table, String, Integer, Column, MetaData
+
+
+engine = sqlalchemy.create_engine("sqlite:///rezume.db")
+conn = engine.connect()
+
+metadata = MetaData()
+
+metadata.drop_all(engine)
+
+rezume = Table(
+    'rezume', metadata,
+    Column('id', Integer(), primary_key=True),
+    Column('title', String(200)),
+    Column('salary', String(200)),
+    Column('spec', String(200)),
+    Column('grafick', String(200)),
+    Column('naviki', String(200)),
+    Column('education_name', String(200)),
+    Column("zanyatost", String(200)),
+    Column("about", String(200)),
+    Column("opit", String(200)),
+)
 
 
 baze = 'https://hh.ru/'
-data = list()
+
 user_agent = fake_useragent.UserAgent()
 headers={
         "user-agent":user_agent.random
@@ -24,7 +48,7 @@ vakans = soup.find_all('a', attrs={'data-qa':"serp-item__title"})
 for i in vakans:
     res = {
         "spec": list(),
-        "zan'yatost": str(),
+        "zanyatost": str(),
         "grafick" : str(),
         'naviki': list(),
         'education_name': list()
@@ -42,16 +66,17 @@ for i in vakans:
         res['salary'] = None
     for i in soup.find_all('li', attrs={'class': 'resume-block__specialization'}):
         res['spec'].append(i.text)
+
     try:
-        res["zan'yatost"], res["grafick"] = (str(i.text.split(":")[1]) for i in soup.find_all('p', attrs={})[4:6])
+        res["zanyatost"], res["grafick"] = (str(i.text.split(":")[1]) for i in soup.find_all('p', attrs={})[4:6])
     except IndexError:
 
-        res["zan'yatost"], res["grafick"] = (str(i.text.split(":")[1]) for i in soup.find_all('p', attrs={})[3:5])
+        res["zanyatost"], res["grafick"] = (str(i.text.split(":")[1]) for i in soup.find_all('p', attrs={})[3:5])
 
     res['opit'] = soup.find('span', attrs={'class': 'resume-block__title-text resume-block__title-text_sub'}).text.replace('\xa0', ' ')
 
     try:
-        res['about'] = str(soup.find('div', attrs={'data-qa': 'resume-block-skills-content'}).text).replace('\n', ' ').replace('\r', '')
+        res['about'] = str(soup.find('div', attrs={'data-qa': 'resume-block-skills-content'}).text).replace('\n', ' ').replace('\r', '').replace('•\t', '')
     except AttributeError:
         res['about'] = None
 
@@ -60,12 +85,34 @@ for i in vakans:
         for i in a:
             res['naviki'].append(i.text)
     except AttributeError:
-        res['naviki'] = None
+        res['naviki'] = []
 
     for i in soup.find_all('div', attrs={'data-qa': "resume-block-education-name"}):
         res['education_name'].append(i.text)
 
-    data.append(res)
-print(len(data))
+
+    metadata.create_all(engine)
+
+
+    ins = rezume.insert().values(
+        title=res['title'],
+        salary=res['salary'],
+        spec= ' | '.join(map(str, res['spec'])),
+        grafick=res['grafick'],
+        naviki= ' | '.join(map(str, res['naviki'])),
+        education_name= ' | '.join(map(str, res['education_name'])),
+        zanyatost= res['zanyatost'],
+        opit = res['opit'],
+        about = res['about']
+
+
+    )
+    print(ins.compile().params)
+    conn.execute(ins)
+conn.commit()
+conn.close()
+
+
+
 
 

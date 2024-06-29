@@ -2,12 +2,12 @@ import requests
 import fake_useragent
 from bs4 import BeautifulSoup
 import sqlalchemy
-from sqlalchemy import Table, String, Integer, Column, Text, MetaData, insert, values
+from sqlalchemy import Table, String, Integer, Column, MetaData
 
 url = "https://hh.ru/search/vacancy?text=&page=2&hhtmFrom=resume_search_result&hhtmFromLabel=vacancy_search_line"
 baze = 'https://hh.ru/'
 
-engine = sqlalchemy.create_engine("sqlite:///vakans.db")
+engine = sqlalchemy.create_engine("sqlite:///Vakans.db")
 conn = engine.connect()
 
 metadata = MetaData()
