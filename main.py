@@ -1,5 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 import sqlite3 as sq
+from typing import List
+from VAKANS import vakancy
 
 app = FastAPI(
     title='hh'
@@ -8,8 +10,14 @@ app = FastAPI(
 conn = sq.connect('Vakans.db', check_same_thread=False)
 cursor = conn.cursor()
 
-@app.post('/get_vakans')
+
+
+
+
+
+@app.get('/get_vakans')
 def get_vakans():
+
     cursor.execute('SELECT * FROM Vakancy')
     vakans = cursor.fetchall()
     data = {}
@@ -27,14 +35,14 @@ def get_vakans():
     return data
 
 
-conn = sq.connect('rezume.db', check_same_thread=False)
-cursor = conn.cursor()
+connn = sq.connect('rezume.db', check_same_thread=False)
+cursor_ = connn.cursor()
 
 
-@app.post('/get_rezume')
-def get_rezume():
-    cursor.execute('SELECT * FROM rezume')
-    vakans = cursor.fetchall()
+@app.get('/get_rezume')
+def get_rezume(param: List[str] = Query('test')):
+    cursor_.execute('SELECT * FROM rezume')
+    vakans = cursor_.fetchall()
     data = {}
     c = 0
     for i in vakans:
