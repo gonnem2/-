@@ -9,8 +9,8 @@ baze = 'https://hh.ru/'
 
 engine = sqlalchemy.create_engine("sqlite:///Vakans.db")
 conn = engine.connect()
-
 metadata = MetaData()
+metadata.drop_all(engine)
 
 Vakancy = Table(
     'Vakancy', metadata,
