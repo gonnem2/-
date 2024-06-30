@@ -16,7 +16,7 @@ def vakancy(search= 'false', salary = 'false', education_level = 'false'):
     engine = sqlalchemy.create_engine("sqlite:///Vakans.db")
     conn = engine.connect()
     metadata = MetaData()
-    metadata.drop_all(engine)
+
 
     Vakancy = Table(
         'Vakancy', metadata,
@@ -28,8 +28,8 @@ def vakancy(search= 'false', salary = 'false', education_level = 'false'):
         Column('href', String(200))
     )
 
+    metadata.drop_all(engine)
 
-    data = list()
     user_agent = fake_useragent.UserAgent()
     headers={
             "user-agent":user_agent.random
@@ -62,7 +62,7 @@ def vakancy(search= 'false', salary = 'false', education_level = 'false'):
         except AttributeError:
             res['title'] = None
         try:
-            res['salary'] = soup.find('span', attrs={'data-qa': 'vacancy-salary-compensation-type-gross'}).text.replace('\xa0', '')
+            res['salary'] = soup.find('div', attrs={'data-qa': 'vacancy-salary'}).text.replace('\xa0', '')
         except AttributeError:
             res['salary'] = None
         res['vacancy_experience'] = soup.find('span', attrs={'data-qa': 'vacancy-experience'}).text
@@ -84,7 +84,8 @@ def vakancy(search= 'false', salary = 'false', education_level = 'false'):
 
 
 
-vakancy('Программист', '450000', 'higher')
+
+
 
 
 

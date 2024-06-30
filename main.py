@@ -16,8 +16,8 @@ cursor = conn.cursor()
 
 
 @app.get('/get_vakans')
-def get_vakans():
-
+def get_vakans(search : str = Query(), salary : int = Query(), education_level : str = Query()):
+    vakancy(search, salary, education_level)
     cursor.execute('SELECT * FROM Vakancy')
     vakans = cursor.fetchall()
     data = {}
