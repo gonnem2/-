@@ -2,7 +2,7 @@ from fastapi import FastAPI, Query
 import sqlite3 as sq
 from typing import List
 from VAKANS import vakancy
-
+from rezume import rezume
 app = FastAPI(
     title='hh'
 )
@@ -40,7 +40,8 @@ cursor_ = connn.cursor()
 
 
 @app.get('/get_rezume')
-def get_rezume(param: List[str] = Query('test')):
+def get_rezume(search : str = Query(), age_from : int = Query(), age_to : int = Query(), salary_from : int = Query(), salary_to: int = Query(), experience: str = Query()):
+    rezume(search, age_from, age_to, salary_from, salary_to, experience)
     cursor_.execute('SELECT * FROM rezume')
     vakans = cursor_.fetchall()
     data = {}
@@ -57,6 +58,7 @@ def get_rezume(param: List[str] = Query('test')):
         res['zanyatost'] = i[7]
         res['opit'] = i[8]
         res['about'] = i[9]
+        res['href'] = i[10]
         data[str(c)] = res
         c += 1
     return data
