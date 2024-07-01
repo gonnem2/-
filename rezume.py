@@ -39,7 +39,10 @@ def rezume(title='false', age_from='false', age_to='false', salary_from='false',
 
     response_main = requests.get(
         url=f"https://hh.ru/search/resume?relocation=living_or_relocation&gender=male&isDefaultArea=true&exp_period=all_time&logic=normal&pos=full_text&search_period=0&order_by=relevance&filter_exp_period=all_time&experience=moreThan6&experience={experience1}&experience={experinece2}&experience={experince3}&label=only_with_age&label=only_with_salary&label=only_with_gender&text={title}&age_from={age_from}&age_to={age_to}&salary_from={salary_from}&salary_to={salary_to}",
-        headers=headers
+        headers=headers,
+        params={
+            'gender': "male"
+        }
 
     )
 

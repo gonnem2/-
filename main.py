@@ -20,7 +20,7 @@ cursor = conn.cursor()
 
 
 @app.get('/get_vakans')
-def get_vakans(search : str = Query(), salary : int = Query(), education_level : str = Query()):
+def get_vakans(search : str = Query() , salary : int = Query(), education_level : str = Query()):
     vakancy(search, salary, education_level)
     cursor.execute('SELECT * FROM Vakancy')
     vakans = cursor.fetchall()
@@ -43,7 +43,7 @@ connn = sq.connect('rezume.db', check_same_thread=False)
 cursor_ = connn.cursor()
 
 
-@app.get('/get_rezume')
+@app.post('/get_rezume')
 def get_rezume(search : str = Query(), age_from : int = Query(), age_to : int = Query(), salary_from : int = Query(), salary_to: int = Query(), experience: str = Query()):
     rezume(search, age_from, age_to, salary_from, salary_to, experience)
     cursor_.execute('SELECT * FROM rezume')

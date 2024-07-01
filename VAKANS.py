@@ -17,7 +17,6 @@ def vakancy(search= 'false', salary = 'false', education_level = 'false'):
     conn = engine.connect()
     metadata = MetaData()
 
-
     Vakancy = Table(
         'Vakancy', metadata,
         Column('id', Integer(), primary_key=True),
