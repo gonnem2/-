@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список вакансий</title>
+
+    <style type="text/css">
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+            margin: auto;
+            text-align: center;
+        }
+
+        .title {
+            color: grey;
+            font-size: 18px;
+        }
+
+        button {
+            border: none;
+            outline: 0;
+            display: inline-block;
+            padding: 8px;
+            color: white;
+            background-color: #000;
+            text-align: center;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+        }
+
+        a {
+            text-decoration: none;
+            font-size: 22px;
+            color: black;
+        }
+
+        button:hover, a:hover {
+            opacity: 0.7;
+        }
+    </style>
+
+    {% block head %}
+     <script src="https://cdn.tailwindcss.com">
+        let params = new URLSearchParams(document.location.search);
+        let search = params.get('search')
+        let salary = params.get('salary')
+        let education_level = params.get('education_level')
+
+    </script>
+    {% endblock %}
+</head>
+<body>
+
+<form action="http://127.0.0.1:8000/base" method="get" >
+  <button>Назад</button>
+{% block content %}
+    {% for i in data %}
+            <div class="flex justify-center flex-col items-center">
+
+                    <div class="flex rounded-3 border-2 p-3 mt-5">
+
+                        <div class="flex flex-col">
+                            <span class="text-2xl font-bold"><a href="{{i['href']}}">{{ i['title'] }}</a></span>
+                            <span class="text-lg">Зарплата: {{ i['salary'] }}</span>
+                            <span class="text-lg">Опыт работы: {{ i['experience'] }}</span>
+                            <span class="text-lg">Занятость: {{ i['employment_mode'] }}</span>
+                        </div>
+                    </div>
+
+            </div>
+
+    {% endfor %}
+{% endblock %}
+
+</body>
+
+</html>

@@ -13,16 +13,105 @@
     </style>
 </head>
 <body>
-    <h1>asf;aslfmalfmnaslf</h1>
+    <h1>Поиск вакансий</h1>
     <form action="http://127.0.0.1:8000/get_vakans" method="get" >
-  <input name="search" placeholder="Искать здесь..." type="search">
-  <input name="salary" placeholder="Искать здесь..." type="search">
-  <input name="education_level" placeholder="Искать здесь..." type="search">
-   <p>
-      <input name="big_pissos" placeholder="Искать здесь..." type="checkbox" value="True">
-        123
-   </p>
-  <button type="submit">Поиск</button>
+  <input name="search" placeholder="Название вакансии" type="search">
+        <button type="submit">Поиск</button>
+  <p>
+      <input name="salary" placeholder="зарплата" type="search">
+      Зарплата от
+  </p>
+
+
+  <div>
+
+       <h3>Образование</h3>
+       <p>
+          <input name='edeucation' placeholder="Искать здесь..." type="checkbox" value="not_required_or_not_specified">
+           Не требуется или не указано
+       </p>
+
+         <p>
+          <input name='education' placeholder="Искать здесь..." type="checkbox" value="higher">
+            Высшее
+       </p>
+
+
+
+         <p>
+          <input name='education' placeholder="Искать здесь..." type="checkbox" value="special_secondary">
+            Среднее специальное
+       </p>
+
+       <h3>ОПЫТ</h3>
+       <p>
+          <input name='experience' placeholder="Искать здесь..." type="checkbox" value="between1And3">
+            1 - 3 года
+       </p>
+
+         <p>
+          <input name='experience' placeholder="Искать здесь..." type="checkbox" value="noExperience">
+            Нет опыта
+       </p>
+
+         <p>
+          <input name='experience' placeholder="Искать здесь..." type="checkbox" value="between3And6">
+            3 - 6 лет
+       </p>
+
+         <p>
+          <input name='experience' placeholder="Искать здесь..." type="checkbox" value="moreThand6">
+            Больше 6 лет
+       </p>
+
+       <h3>Тип занятости</h3>
+       <p>
+          <input name='employment' placeholder="Искать здесь..." type="checkbox" value="full">
+            Полная занятость
+       </p>
+
+         <p>
+          <input name='employment' placeholder="Искать здесь..." type="checkbox" value="part">
+            Частичная занятость
+       </p>
+
+         <p>
+          <input name='employment' placeholder="Искать здесь..." type="checkbox" value="propation">
+            Стажировка
+       </p>
+
+         <p>
+          <input name='employment' placeholder="Искать здесь..." type="checkbox" value="project">
+            Проектная работа
+       </p>
+
+       <h3>График работы</h3>
+       <p>
+          <input name='schedule' placeholder="Искать здесь..." type="checkbox" value="fullDay">
+            Полный день
+       </p>
+
+         <p>
+          <input name='schedule' placeholder="Искать здесь..." type="checkbox" value="shift">
+            Сменный график
+       </p>
+
+         <p>
+          <input name='schedule' placeholder="Искать здесь..." type="checkbox" value="flyInFlyOut">
+            Вахтовый метод
+       </p>
+
+         <p>
+          <input name='schedule' placeholder="Искать здесь..." type="checkbox" value="remote">
+            Удаленная работа
+       </p>
+
+         <p>
+          <input name='schedule' placeholder="Искать здесь..." type="checkbox" value="flexible">
+            Гибкий график
+       </p>
+  </div>
+
 
 
 </form>
