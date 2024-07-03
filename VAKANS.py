@@ -11,13 +11,10 @@ def vakancy(search='', salary = 'false',
             employment = [],
             schedule=[]):
 
-
-
-    url = f"https://hh.ru/search/vacancy?ored_cluster=true&only_with_salary=true&page=1&hhtmFrom=resume_search_result&hhtmFromLabel=vacancy_search_line"
+    url ='https://belgorod.hh.ru/search/vacancy?ored_cluster=true&ored_cluster=true&area=113&hht'
     engine = sqlalchemy.create_engine("sqlite:///Vakans.db")
     conn = engine.connect()
     metadata = MetaData()
-
 
     Vakancy = Table(
         'Vakancy', metadata,

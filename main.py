@@ -1,11 +1,8 @@
 import sqlite3
-
 from fastapi import FastAPI, Query, Request, Depends
 import sqlite3 as sq
-
 from rezume import rezume
 from fastapi.templating import Jinja2Templates
-
 from VAKANS import vakancy
 
 
@@ -85,5 +82,5 @@ def get_rezume(search: str = Query(), age_from: int = Query(), age_to: int = Que
 
 @app.get('/base')
 def get_base_page(request: Request):
-    return templates.TemplateResponse('base.html', {"request": request})
-
+    vakancy()
+    return templates.TemplateResponse('base.html', {"request": request, 'data': cursor.execute('SELECT * FROM Vakancy').fetchall()})
